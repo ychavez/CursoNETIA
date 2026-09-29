@@ -1,0 +1,149 @@
+Mercado al que va dirigido
+Curso dirigido a empresas de desarrollo de software, departamentos de TI, consultoras, startups que busquen modernizar sus procesos de construcción de software con .NET e Inteligencia Artificial. Está orientado a desarrolladores, arquitectos, líderes técnicos y equipos de ingeniería que deseen incrementar productividad, adoptar GitHub Copilot con buenas prácticas, fortalecer arquitectura, seguridad, observabilidad y acelerar entregas sin perder calidad técnica.
+
+
+Curso práctico y especializado enfocado en el desarrollo de aplicaciones empresariales con .NET y Visual Studio, integrando GitHub Copilot como herramienta de apoyo al proceso de construcción de software.
+El enfoque del curso consiste en enseñar cómo utilizar la IA para acelerar tareas como generación de código, refactorización, pruebas, documentación y debugging, manteniendo siempre el criterio técnico del desarrollador y aplicando principios sólidos de ingeniería de software.
+Durante el curso se desarrollará una aplicación robusta, segura, escalable y mantenible, utilizando patrones modernos de arquitectura, buenas prácticas de desarrollo, pruebas automatizadas, despliegue en Docker y estrategias de observabilidad para ambientes reales.
+Al finalizar el curso, los participantes serán capaces de:
+- Desarrollar aplicaciones empresariales en .NET con arquitectura profesional.
+- Utilizar GitHub Copilot como apoyo en el ciclo de desarrollo.
+- Validar y mejorar código generado por IA.
+- Aplicar patrones modernos de diseño y arquitectura.
+- Construir soluciones seguras, escalables y mantenibles.
+- Implementar pruebas automatizadas.
+- Desplegar aplicaciones usando Docker.
+- Incorporar logging, monitoreo y health checks.
+- Preparar soluciones listas para producción.
+- Conocimientos básicos o intermedios de programación orientada a objetos.
+- Experiencia previa con C# o algún lenguaje similar.
+- Conocimientos generales de bases de datos relacionales.
+- Nociones básicas de APIs REST.
+- Interés por buenas prácticas de desarrollo de software.
+- Interés en el uso profesional de herramientas de IA.
+- Equipo con sistema operativo Windows.
+- Microsoft Visual Studio instalado.
+- Microsoft .NET SDK instalado.
+- Docker Desktop instalado.
+- SQL Server Express / Developer o equivalente.
+- Cuenta en GitHub.
+- Suscripción o acceso a GitHub Copilot.
+- Conexión a internet estable.
+Submódulos:
+- Rol actual de la IA en el desarrollo de software.
+- Qué tareas delegar y cuáles no.
+- Riesgos del código generado automáticamente.
+- Supervisión humana y validación técnica.
+- Prompting efectivo para desarrolladores.
+- Productividad sin perder control del código.
+Submódulos:
+- Fundamentos de Clean Architecture.
+- Separación de capas y responsabilidades.
+- SOLID aplicado a proyectos reales.
+- Organización de soluciones empresariales.
+- Inyección de dependencias.
+- Configuración por ambientes.
+- Escalabilidad y mantenibilidad.
+Patrones incluidos:
+- Repository Pattern
+- CQRS
+- Mediator Pattern
+- Adapter Pattern
+- Result Pattern
+- Domain Events
+- Outbox Pattern
+- Retry Pattern
+- Circuit Breaker
+- Cache Aside
+Submódulos:
+- Creación de APIs con ASP.NET Core.
+- Diseño de endpoints.
+- DTOs y contratos.
+- Validaciones.
+- Manejo global de errores.
+- Versionado de APIs.
+- Swagger / OpenAPI.
+- Buenas prácticas REST.
+Submódulos:
+- Introducción a Entity Framework Core.
+- Code First y Migrations.
+- Relaciones entre entidades.
+- Consultas eficientes.
+- Índices y performance.
+- Transacciones.
+- Soft Delete.
+- Auditoría de datos.
+Submódulos:
+- Autenticación con JWT.
+- Autorización por roles y permisos.
+- Protección de endpoints.
+- Validación de entrada de datos.
+- Manejo seguro de secretos.
+- Prevención de vulnerabilidades comunes.
+- Buenas prácticas OWASP.
+- Seguridad en ambientes productivos.
+Submódulos:
+- Uso práctico de GitHub Copilot.
+- Generación inicial de código.
+- Refactorización asistida.
+- Generación de pruebas unitarias.
+- Debugging con IA.
+- Documentación automática.
+- Optimización de consultas.
+- Revisión técnica asistida.
+Submódulos:
+- Unit Testing.
+- Integration Testing.
+- Mocking.
+- Pruebas de regresión.
+- Cobertura de código.
+- Casos borde.
+- Validación de código generado por IA.
+- Calidad continua.
+Submódulos:
+- Introducción a contenedores.
+- Dockerfile para proyectos .NET.
+- Multi-stage builds.
+- Docker Compose.
+- Variables de entorno.
+- Redes entre servicios.
+- Persistencia.
+- Despliegue productivo.
+Submódulos:
+- Fundamentos de observabilidad.
+- Logs estructurados.
+- Trazas distribuidas.
+- Métricas básicas.
+- Integración con .NET.
+- Exportación de telemetría.
+- Health Checks.
+- Diagnóstico de errores en producción.
+Herramienta utilizada:
+- OpenTelemetry
+
+
+Submódulos:
+Desarrollo de una aplicación real implementando:
+- Arquitectura limpia.
+- Patrones del curso.
+- Seguridad.
+- Persistencia de datos.
+- Testing.
+- Docker.
+- Observabilidad.
+- Health Checks.
+- Uso profesional de IA.
+1. ¿Cuál es tu experiencia con C# y .NET?
+2. ¿Has trabajado con Visual Studio?
+3. ¿Conoces APIs REST?
+4. ¿Has utilizado Entity Framework?
+5. ¿Conoces patrones como Repository o CQRS?
+6. ¿Has trabajado con Docker?
+7. ¿Has utilizado GitHub Copilot?
+8. ¿Has implementado pruebas unitarias?
+9. ¿Te interesa arquitectura de software?
+10. ¿Qué esperas lograr con este curso?
+
+
+
+Semblanza del instructor

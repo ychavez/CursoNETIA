@@ -1,0 +1,62 @@
+@host = http://localhost:5080
+# Genera ambos tokens con scripts/token.ps1. No guardes valores reales en Git.
+@adminToken = REEMPLAZAR_TOKEN_ADMIN
+@studentToken = REEMPLAZAR_TOKEN_STUDENT
+@productId = 00000000-0000-0000-0000-000000000000
+@productVersion = 00000000-0000-0000-0000-000000000000
+@orderId = 00000000-0000-0000-0000-000000000000
+@orderVersion = 00000000-0000-0000-0000-000000000000
+
+### 200 sin token
+GET {{host}}/health/ready
+
+### 401 sin token
+GET {{host}}/api/v1/products
+
+### Crear producto como Admin: 201 + Location; copiar id/version
+POST {{host}}/api/v1/products
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{ "sku": "CURSO-001", "name": "Arquitectura con IA", "price": 125.50 }
+
+### Catálogo paginado
+GET {{host}}/api/v1/products?page=1&pageSize=20
+Authorization: Bearer {{studentToken}}
+
+### Cache Aside
+GET {{host}}/api/v1/products/{{productId}}
+Authorization: Bearer {{studentToken}}
+
+### Concurrencia: primer PUT 200; repetir Version anterior 409
+PUT {{host}}/api/v1/products/{{productId}}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{ "sku": "CURSO-001", "name": "Arquitectura empresarial con IA", "price": 150.00, "version": "{{productVersion}}" }
+
+### 201: precio y cliente los decide el servidor; copiar id/version
+POST {{host}}/api/v1/orders
+Authorization: Bearer {{studentToken}}
+Content-Type: application/json
+
+{ "items": [ { "productId": "{{productId}}", "quantity": 2 } ] }
+
+### Sólo pedidos del subject autenticado
+GET {{host}}/api/v1/orders?page=1&pageSize=20
+Authorization: Bearer {{studentToken}}
+
+### Otro subject: 403
+GET {{host}}/api/v1/orders/{{orderId}}
+Authorization: Bearer {{studentToken}}
+
+### 200 cancelación; luego repetir con versión vieja: 409
+POST {{host}}/api/v1/orders/{{orderId}}/cancel
+Authorization: Bearer {{studentToken}}
+Content-Type: application/json
+
+{ "version": "{{orderVersion}}" }
+
+### Borrado lógico; versión actual requerida
+DELETE {{host}}/api/v1/products/{{productId}}?version={{productVersion}}
+Authorization: Bearer {{adminToken}}

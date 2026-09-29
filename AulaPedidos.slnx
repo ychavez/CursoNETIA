@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AulaPedidos.Api/AulaPedidos.Api.csproj" />
+    <Project Path="src/AulaPedidos.Application/AulaPedidos.Application.csproj" />
+    <Project Path="src/AulaPedidos.Domain/AulaPedidos.Domain.csproj" />
+    <Project Path="src/AulaPedidos.Infrastructure/AulaPedidos.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AulaPedidos.IntegrationTests/AulaPedidos.IntegrationTests.csproj" />
+    <Project Path="tests/AulaPedidos.UnitTests/AulaPedidos.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/AulaPedidos.NotificationsMock/AulaPedidos.NotificationsMock.csproj" />
+  </Folder>
+</Solution>

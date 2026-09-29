@@ -1,0 +1,72 @@
+# Laboratorio de UNA instancia. No utilizar este Compose como despliegue productivo.
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: ${SQL_PASSWORD:?Ejecuta scripts/setup.ps1}
+    ports:
+      - "127.0.0.1:14333:1433"
+    volumes:
+      - sql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q 'SELECT 1' -b -o /dev/null"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+  migrate:
+    build: .
+    image: aulapedidos-api:local
+    command: ["--migrate"]
+    environment: &api-environment
+      ASPNETCORE_ENVIRONMENT: Development
+      Database__Provider: SqlServer
+      ConnectionStrings__Database: "Server=sqlserver;Database=AulaPedidos;User Id=sa;Password=${SQL_PASSWORD};Encrypt=True;TrustServerCertificate=True"
+      Jwt__DemoMode: "true"
+      Jwt__SigningKey: ${JWT_KEY:?Ejecuta scripts/setup.ps1}
+      Notifications__SharedKey: ${NOTIFICATIONS_KEY:?Ejecuta scripts/setup.ps1}
+      Notifications__BaseUrl: http://notifications:8080/
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://dashboard:18889
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    restart: "no"
+  api:
+    image: aulapedidos-api:local
+    build: .
+    environment: *api-environment
+    ports:
+      - "127.0.0.1:5080:8080"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      notifications:
+        condition: service_started
+      dashboard:
+        condition: service_started
+  notifications:
+    build:
+      context: .
+      dockerfile: tools/AulaPedidos.NotificationsMock/Dockerfile
+    environment:
+      Notifications__SharedKey: ${NOTIFICATIONS_KEY}
+      ConnectionStrings__Database: Data Source=/data/notifications.db
+      Simulation__FailuresBeforeSuccess: "0"
+      Simulation__AlwaysFail: "false"
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://dashboard:18889
+    volumes:
+      - notification-data:/data
+    ports:
+      - "127.0.0.1:5099:8080"
+  dashboard:
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.5
+    environment:
+      DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: "true"
+    ports:
+      - "127.0.0.1:18888:18888"
+      - "127.0.0.1:4317:18889"
+volumes:
+  sql-data:
+  notification-data:

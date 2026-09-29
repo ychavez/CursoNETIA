@@ -1,0 +1,58 @@
+name: quality
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - run: dotnet tool restore
+      - run: dotnet restore AulaPedidos.slnx --locked-mode
+      - run: dotnet build AulaPedidos.slnx -c Release --no-restore
+      - run: dotnet test AulaPedidos.slnx -c Release --no-build --collect:"XPlat Code Coverage" --logger trx --results-directory artifacts/tests
+      - run: dotnet ef migrations has-pending-model-changes --project src/AulaPedidos.Infrastructure --context SqliteAulaPedidosDbContext
+      - run: dotnet ef migrations has-pending-model-changes --project src/AulaPedidos.Infrastructure --context SqlServerAulaPedidosDbContext
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: artifacts/tests
+  containers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure disposable lab secrets
+        shell: bash
+        run: |
+          echo "SQL_PASSWORD=Aula9!$(openssl rand -hex 20)" >> .env
+          echo "JWT_KEY=$(openssl rand -hex 32)" >> .env
+          echo "NOTIFICATIONS_KEY=$(openssl rand -hex 32)" >> .env
+      - run: docker compose config --quiet
+      - run: docker compose up --build -d
+      - name: Verify SQL Server migration and ready API
+        shell: bash
+        run: |
+          for attempt in {1..60}; do
+            if curl --fail --silent http://localhost:5080/health/ready; then exit 0; fi
+            sleep 3
+          done
+          docker compose logs --tail=100
+          exit 1
+      - name: Verify containers use non-root application users
+        run: |
+          test "$(docker compose exec -T api id -u)" != "0"
+          test "$(docker compose exec -T notifications id -u)" != "0"
+      - name: Verify HTTP behavior with SQL Server
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force .local | Out-Null
+          $values = @{}
+          Get-Content .env | ForEach-Object { $parts = $_ -split '=',2; $values[$parts[0]] = $parts[1] }
+          @{ JwtKey = $values.JWT_KEY } | ConvertTo-Json | Set-Content .local/secrets.json
+          ./scripts/smoke.ps1
+      - run: docker compose down
+        if: always()

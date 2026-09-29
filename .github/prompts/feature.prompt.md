@@ -1,0 +1,3 @@
+# Construir una feature verificable
+
+Lee las instrucciones del repositorio y los archivos relacionados. El requisito y criterios se indican debajo. Primero localiza implementación existente, enumera archivos y riesgos. Implementa la menor modificación coherente, conservando contratos. Incluye pruebas de comportamiento positivo, negativo y autorización si aplica; actualiza OpenAPI/documentación. Ejecuta compilación y pruebas disponibles y reporta sus resultados reales. No añadas secretos, no instales dependencias sin justificación y no publiques nada. Deja una lista breve de decisiones para revisión humana.
