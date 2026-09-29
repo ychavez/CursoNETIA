@@ -52,6 +52,8 @@ Patrones implementados: [Repository genérico `IRepository<T>` y repositorios es
 
 ## Dar el curso
 
+Presenta el recorrido con la [presentación para alumnos (PowerPoint)](instructor/clases/00-presentacion-alumnos.pptx), que resume el proyecto y lo que veremos en cada clase.
+
 1. Lee [instructor/README.md](instructor/README.md) y realiza la preparación.
 2. Abre [AulaPedidos.slnx](AulaPedidos.slnx) como solución de referencia.
 3. Crea un punto de partida independiente para cada alumno:

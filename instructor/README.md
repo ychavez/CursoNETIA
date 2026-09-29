@@ -2,6 +2,8 @@
 
 Este paquete contiene una aplicación de referencia completa y un recorrido para construirla durante clase. El curso está dirigido a desarrolladores, arquitectos, líderes y equipos de software con C# básico/intermedio, orientación a objetos, SQL y nociones de REST. La IA participa en todo el ciclo: diseño, código, refactor, pruebas, diagnóstico, consultas, documentación y revisión. El criterio técnico se evalúa con evidencia, no por cantidad de código generado.
 
+Abre la [presentación para alumnos (PowerPoint)](clases/00-presentacion-alumnos.pptx) para explicar al inicio qué construirán y qué aprenderán en las diez clases. Reutiliza la lámina correspondiente al comenzar cada clase.
+
 ## Duración y organización
 
 **10 clases de 240 minutos efectivos = 2,400 minutos = 40 horas.** Los descansos no se descuentan del contenido. Se recomiendan dos pausas de 10 minutos por clase, después del minuto 80 y 160: duración de calendario de 4h20 por sesión. Si la empresa exige bloques de exactamente 4h con pausas incluidas, deberá añadir 200 minutos de sesiones para conservar las 40 horas de formación.
