@@ -43,7 +43,7 @@ Api puede referenciar Infrastructure para registrar implementaciones en el punto
 
 | Patrón | Uso en AulaPedidos | Coste o límite que debe explicarse |
 |---|---|---|
-| Repository | Puertos de persistencia orientados al caso de uso | EF ya ofrece repositorio/unidad de trabajo; no se justifica un CRUD genérico sin valor |
+| Repository | `IRepository<T>` comparte carga por identidad/lote y alta; interfaces específicas expresan consultas del negocio | Seguimiento, agregados completos y unidad de trabajo mantienen su semántica; no se expone `IQueryable` a Application |
 | CQRS | Solicitudes de lectura separadas de escritura | Comparten base; no implica microservicios, event sourcing ni dos bases |
 | Mediator | Desacopla transporte del handler por tipo | Registro explícito y resolución deben probarse; más indirección |
 | Adapter | Notificador HTTP detrás de un puerto | Contrato externo, timeouts y semántica siguen siendo responsabilidad del equipo |
@@ -59,6 +59,8 @@ Api puede referenciar Infrastructure para registrar implementaciones en el punto
 SRP: un handler coordina crear pedido y no emite tokens. OCP: otro notificador puede implementar el puerto sin alterar las reglas. LSP: un repositorio debe mantener los contratos de ausencia y cancelación; una implementación que lanza inesperadamente al no encontrar viola expectativas. ISP: puertos pequeños evitan que un lector dependa de escritura. DIP: las decisiones de negocio dependen de abstracciones propias, no del SDK del proveedor. No se evalúa SOLID contando interfaces.
 
 ## Datos y consistencia
+
+`Product` y `Order` implementan `IAggregateRoot`. Sus repositorios heredan de `Repository<T>` y de un contrato `IRepository<T>` definido en Application. Las consultas por identidad conservan seguimiento; las consultas por lote son de lectura sin seguimiento. `OrderRepository` carga las líneas en ambos casos. La inyección genérica y la específica resuelven la misma instancia scoped; los registros son explícitos para cada agregado. `IUnitOfWork` confirma cambios y outbox mediante el mismo contexto. Actualización, cancelación y borrado lógico pasan por métodos del dominio; permisos, versión e invalidación de caché permanecen en sus handlers. Ver [uso y extensión del repositorio genérico](repositorio-generico.md).
 
 SQL Server es el proveedor del recorrido Docker; SQLite reduce fricción en el arranque local. Tienen contextos/migraciones propios. Pasar tests SQLite no demuestra traducción SQL Server, bloqueo o rendimiento del servidor. El borrado lógico conserva historial, pero un filtro global no sustituye autorización ni una política de retención. Auditoría técnica de creación/modificación no equivale a un registro inmutable de cumplimiento.
 

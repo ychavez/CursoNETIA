@@ -51,7 +51,7 @@ public sealed class UpdateProductHandler(IProductRepository products, IUnitOfWor
     }
 }
 
-public sealed class DeleteProductHandler(IProductRepository products, IUnitOfWork unitOfWork, IProductCache cache)
+public sealed class DeleteProductHandler(IRepository<Product> products, IUnitOfWork unitOfWork, IProductCache cache)
     : IRequestHandler<DeleteProductCommand, Result<Unit>>
 {
     public async Task<Result<Unit>> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
@@ -69,7 +69,7 @@ public sealed class DeleteProductHandler(IProductRepository products, IUnitOfWor
     }
 }
 
-public sealed class GetProductHandler(IProductRepository products, IProductCache cache)
+public sealed class GetProductHandler(IRepository<Product> products, IProductCache cache)
     : IRequestHandler<GetProductQuery, Result<ProductDto>>
 {
     public async Task<Result<ProductDto>> Handle(GetProductQuery request, CancellationToken cancellationToken)

@@ -1,10 +1,11 @@
+using AulaPedidos.Domain.Abstractions;
 using AulaPedidos.Domain.Events;
 
 namespace AulaPedidos.Domain.Entities;
 
 public enum OrderStatus { Submitted, Cancelled }
 
-public sealed class Order
+public sealed class Order : IAggregateRoot
 {
     private readonly List<OrderItem> _items = [];
     private readonly List<IDomainEvent> _domainEvents = [];

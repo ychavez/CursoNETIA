@@ -45,7 +45,7 @@ Origen: temario del archivo «Texto pegado.txt» proporcionado para diseñar el 
 | Inyección de dependencias | 2,3,5,8 D/P | Registros, lifetimes y scopes del worker |
 | Configuración por ambiente | 2,6,9 P/E | Development, variables y Production sin demo |
 | Escalabilidad y mantenibilidad | 2,8,10 T/E | Medición, límites multiworker/caché y matriz producción |
-| Repository Pattern | 3,5 P/E | IPersistence y Repositories |
+| Repository Pattern e `IRepository<T>` (petición adicional) | 3,5 P/E | IAggregateRoot, IRepository, Repository, repositorios especializados; docs/repositorio-generico; pruebas de tracking, filtros y carga de líneas |
 | CQRS | 3 P/E | Commands/Queries con DB compartida |
 | Mediator Pattern | 3 P/E | Messaging/Mediator y registro handlers |
 | Adapter Pattern | 8 P/E | Notificador HTTP detrás de puerto |

@@ -48,7 +48,7 @@ setup es repetible: conserva datos y claves existentes. `.local/secrets.json` y 
 | docs | Arquitectura, ADR, seguridad y operación |
 | scripts / requests | Arranque, validación, laboratorio y ejemplos HTTP |
 
-Patrones implementados: Repository, CQRS, Mediator, Adapter, Result, Domain Events, Outbox, Retry, Circuit Breaker y Cache Aside. Los pedidos conservan los precios históricos; las mutaciones exigen una versión; cada usuario consulta y cancela solamente sus propios pedidos.
+Patrones implementados: [Repository genérico `IRepository<T>` y repositorios especializados](docs/repositorio-generico.md), CQRS, Mediator, Adapter, Result, Domain Events, Outbox, Retry, Circuit Breaker y Cache Aside. Los pedidos conservan los precios históricos; las mutaciones exigen una versión; cada usuario consulta y cancela solamente sus propios pedidos.
 
 ## Dar el curso
 

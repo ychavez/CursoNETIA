@@ -1,4 +1,5 @@
 using AulaPedidos.Application.Abstractions;
+using AulaPedidos.Domain.Entities;
 using AulaPedidos.Infrastructure.Caching;
 using AulaPedidos.Infrastructure.Notifications;
 using AulaPedidos.Infrastructure.Outbox;
@@ -33,8 +34,15 @@ public static class DependencyInjection
         }
         else throw new InvalidOperationException("Database:Provider debe ser Sqlite o SqlServer.");
 
-        services.AddScoped<IProductRepository, ProductRepository>();
-        services.AddScoped<IOrderRepository, OrderRepository>();
+        // Los puertos genéricos y específicos resuelven la MISMA instancia por scope.
+        // Registros cerrados conservan el grafo del agregado (Order.Items), también
+        // al resolver IEnumerable<IRepository<Order>>; no se añade un fallback abierto.
+        services.AddScoped<ProductRepository>();
+        services.AddScoped<IProductRepository>(serviceProvider => serviceProvider.GetRequiredService<ProductRepository>());
+        services.AddScoped<IRepository<Product>>(serviceProvider => serviceProvider.GetRequiredService<ProductRepository>());
+        services.AddScoped<OrderRepository>();
+        services.AddScoped<IOrderRepository>(serviceProvider => serviceProvider.GetRequiredService<OrderRepository>());
+        services.AddScoped<IRepository<Order>>(serviceProvider => serviceProvider.GetRequiredService<OrderRepository>());
         services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<AulaPedidosDbContext>());
         services.AddMemoryCache();
         services.AddSingleton<IProductCache, MemoryProductCache>();

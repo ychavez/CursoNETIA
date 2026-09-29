@@ -1,6 +1,8 @@
+using AulaPedidos.Domain.Abstractions;
+
 namespace AulaPedidos.Domain.Entities;
 
-public sealed class Product
+public sealed class Product : IAggregateRoot
 {
     private Product() { }
 

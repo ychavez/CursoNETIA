@@ -6,7 +6,7 @@ using AulaPedidos.Domain.Entities;
 
 namespace AulaPedidos.Application.Orders;
 
-public sealed class CreateOrderHandler(IProductRepository products, IOrderRepository orders, IUnitOfWork unitOfWork)
+public sealed class CreateOrderHandler(IRepository<Product> products, IRepository<Order> orders, IUnitOfWork unitOfWork)
     : IRequestHandler<CreateOrderCommand, Result<OrderDto>>
 {
     public async Task<Result<OrderDto>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -38,7 +38,7 @@ public sealed class CreateOrderHandler(IProductRepository products, IOrderReposi
     }
 }
 
-public sealed class CancelOrderHandler(IOrderRepository orders, IUnitOfWork unitOfWork)
+public sealed class CancelOrderHandler(IRepository<Order> orders, IUnitOfWork unitOfWork)
     : IRequestHandler<CancelOrderCommand, Result<OrderDto>>
 {
     public async Task<Result<OrderDto>> Handle(CancelOrderCommand request, CancellationToken cancellationToken)
@@ -58,7 +58,7 @@ public sealed class CancelOrderHandler(IOrderRepository orders, IUnitOfWork unit
     }
 }
 
-public sealed class GetOrderHandler(IOrderRepository orders) : IRequestHandler<GetOrderQuery, Result<OrderDto>>
+public sealed class GetOrderHandler(IRepository<Order> orders) : IRequestHandler<GetOrderQuery, Result<OrderDto>>
 {
     public async Task<Result<OrderDto>> Handle(GetOrderQuery request, CancellationToken cancellationToken)
     {

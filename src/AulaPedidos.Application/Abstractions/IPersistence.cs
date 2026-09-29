@@ -4,20 +4,15 @@ using AulaPedidos.Domain.Entities;
 
 namespace AulaPedidos.Application.Abstractions;
 
-public interface IProductRepository
+public interface IProductRepository : IRepository<Product>
 {
-    Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-    Task<IReadOnlyList<Product>> GetByIdsAsync(IReadOnlyCollection<Guid> ids, CancellationToken cancellationToken = default);
     Task<bool> SkuExistsAsync(string sku, Guid? excludingId, CancellationToken cancellationToken = default);
     Task<Page<Product>> ListAsync(PageRequest page, CancellationToken cancellationToken = default);
-    void Add(Product product);
 }
 
-public interface IOrderRepository
+public interface IOrderRepository : IRepository<Order>
 {
-    Task<Order?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task<Page<Order>> ListByCustomerAsync(string customerId, PageRequest page, CancellationToken cancellationToken = default);
-    void Add(Order order);
 }
 
 public interface IUnitOfWork

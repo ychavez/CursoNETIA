@@ -19,7 +19,7 @@ public sealed class MediatorTests
         products.Setup(repo => repo.GetByIdAsync(product.Id, cancellation.Token)).ReturnsAsync(product);
         var services = new ServiceCollection();
         services.AddApplication();
-        services.AddSingleton(products.Object);
+        services.AddSingleton<IRepository<Product>>(products.Object);
         services.AddSingleton(Mock.Of<IProductCache>());
         using var provider = services.BuildServiceProvider();
         using var scope = provider.CreateScope();
