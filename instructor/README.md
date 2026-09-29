@@ -2,7 +2,7 @@
 
 Este paquete contiene una aplicación de referencia completa y un recorrido para construirla durante clase. El curso está dirigido a desarrolladores, arquitectos, líderes y equipos de software con C# básico/intermedio, orientación a objetos, SQL y nociones de REST. La IA participa en todo el ciclo: diseño, código, refactor, pruebas, diagnóstico, consultas, documentación y revisión. El criterio técnico se evalúa con evidencia, no por cantidad de código generado.
 
-Abre la [presentación para alumnos (PowerPoint)](clases/00-presentacion-alumnos.pptx) para explicar al inicio qué construirán y qué aprenderán en las diez clases. Reutiliza la lámina correspondiente al comenzar cada clase.
+Abre la [presentación para alumnos (PowerPoint)](clases/00-presentacion-alumnos.pptx) para explicar al inicio qué construirán y qué aprenderán en las diez clases. Cada módulo incluye una lámina de resumen seguida de otra que explica conceptos, siglas y un ejemplo de AulaPedidos. Consulta el [índice de diapositivas](clases/README.md) para abrir la pareja correspondiente a cada clase.
 
 ## Duración y organización
 

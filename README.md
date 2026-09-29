@@ -52,7 +52,7 @@ Patrones implementados: [Repository genérico `IRepository<T>` y repositorios es
 
 ## Dar el curso
 
-Presenta el recorrido con la [presentación para alumnos (PowerPoint)](instructor/clases/00-presentacion-alumnos.pptx), que resume el proyecto y lo que veremos en cada clase.
+Presenta el recorrido con la [presentación para alumnos (PowerPoint)](instructor/clases/00-presentacion-alumnos.pptx): 24 diapositivas con el resumen de cada módulo y una explicación de sus conceptos y siglas mediante ejemplos de AulaPedidos.
 
 1. Lee [instructor/README.md](instructor/README.md) y realiza la preparación.
 2. Abre [AulaPedidos.slnx](AulaPedidos.slnx) como solución de referencia.
