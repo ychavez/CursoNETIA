@@ -2,7 +2,11 @@
 
 Este paquete contiene una aplicación de referencia completa y un recorrido para construirla durante clase. El curso está dirigido a desarrolladores, arquitectos, líderes y equipos de software con C# básico/intermedio, orientación a objetos, SQL y nociones de REST. La IA participa en todo el ciclo: diseño, código, refactor, pruebas, diagnóstico, consultas, documentación y revisión. El criterio técnico se evalúa con evidencia, no por cantidad de código generado.
 
-Abre la [presentación para alumnos (PowerPoint)](clases/00-presentacion-alumnos.pptx) para explicar al inicio qué construirán y qué aprenderán en las diez clases. Cada módulo incluye una lámina de resumen seguida de otra que explica conceptos, siglas y un ejemplo de AulaPedidos. Consulta el [índice de diapositivas](clases/README.md) para abrir la pareja correspondiente a cada clase.
+Abre la [presentación para alumnos (PowerPoint)](clases/00-presentacion-alumnos.pptx), ampliada a **64 diapositivas**. Las primeras tres introducen el curso; cada módulo ocupa seis láminas: resumen, conceptos y cuatro de desarrollo práctico. La diapositiva 64 presenta la entrega final. Consulta el [índice de diapositivas](clases/README.md) para localizar cada bloque.
+
+El desarrollo profundiza en mecanismos, decisiones y ejemplos del repositorio con fragmentos de código editables y diagramas. Las notas del presentador contienen explicación oral, errores habituales, preguntas para el grupo y fuentes técnicas. Alterna las láminas con el código completo y el laboratorio del guion; usa las notas para preparar la explicación, sin leerlas como monólogo.
+
+Los fragmentos literales señalan su archivo y los simplificados se marcan como **Esquema didáctico**, con sus omisiones explicadas en las notas. El filtro por estado del módulo 10 es una **propuesta de ejercicio**, pendiente de implementar en el laboratorio; no se presenta como una función incorporada a la solución de referencia.
 
 ## Duración y organización
 
