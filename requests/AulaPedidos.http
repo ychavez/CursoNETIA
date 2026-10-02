@@ -1,13 +1,21 @@
 @host = http://localhost:5080
-# Genera ambos tokens con scripts/token.ps1. No guardes valores reales en Git.
+# Genera tokens con CourseTools desde la raíz de la solución:
+# dotnet run --project tools/AulaPedidos.CourseTools -- token --role Admin --subject instructor
+# dotnet run --project tools/AulaPedidos.CourseTools -- token --role Student --subject alumno-a
+# dotnet run --project tools/AulaPedidos.CourseTools -- token --role Student --subject alumno-b
+# Usa una copia local no versionada o Swagger. No guardes valores reales en Git.
 @adminToken = REEMPLAZAR_TOKEN_ADMIN
 @studentToken = REEMPLAZAR_TOKEN_STUDENT
+@otherStudentToken = REEMPLAZAR_TOKEN_OTRO_STUDENT
 @productId = 00000000-0000-0000-0000-000000000000
 @productVersion = 00000000-0000-0000-0000-000000000000
 @orderId = 00000000-0000-0000-0000-000000000000
 @orderVersion = 00000000-0000-0000-0000-000000000000
 
-### 200 sin token
+### Liveness: 200 sin token
+GET {{host}}/health/live
+
+### Readiness: 200 cuando las dependencias están disponibles
 GET {{host}}/health/ready
 
 ### 401 sin token
@@ -48,7 +56,7 @@ Authorization: Bearer {{studentToken}}
 
 ### Otro subject: 403
 GET {{host}}/api/v1/orders/{{orderId}}
-Authorization: Bearer {{studentToken}}
+Authorization: Bearer {{otherStudentToken}}
 
 ### 200 cancelación; luego repetir con versión vieja: 409
 POST {{host}}/api/v1/orders/{{orderId}}/cancel

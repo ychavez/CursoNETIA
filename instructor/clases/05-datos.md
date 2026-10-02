@@ -35,7 +35,7 @@ El bloque 15–40 se distribuye así: cinco minutos para seguir contrato → imp
 
 El repositorio genérico cambia contratos y reutiliza código; no modifica el modelo persistido ni exige una migración nueva sobre la referencia.
 
-```powershell
+```console
 dotnet tool restore
 dotnet ef migrations list --project src/AulaPedidos.Infrastructure --startup-project src/AulaPedidos.Api --context SqliteAulaPedidosDbContext
 dotnet ef migrations script --project src/AulaPedidos.Infrastructure --startup-project src/AulaPedidos.Api --context SqliteAulaPedidosDbContext --output .local/migracion-sqlite.sql
@@ -46,7 +46,7 @@ No ejecutar scripts sobre una base empresarial. Leer DDL, FKs e índices. `--ide
 
 En el laboratorio, generar una migración **sólo cuando el alumno ya creó su modelo y aún no copió migraciones de referencia**:
 
-```powershell
+```console
 dotnet ef migrations add InitialLab --project src/AulaPedidos.Infrastructure --startup-project src/AulaPedidos.Api --context SqliteAulaPedidosDbContext --output-dir Persistence/Migrations/Sqlite
 ```
 

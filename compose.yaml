@@ -5,7 +5,7 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_PID: Developer
-      MSSQL_SA_PASSWORD: ${SQL_PASSWORD:?Ejecuta scripts/setup.ps1}
+      MSSQL_SA_PASSWORD: ${SQL_PASSWORD:?Ejecuta CourseTools setup desde la raiz del curso}
     ports:
       - "127.0.0.1:14333:1433"
     volumes:
@@ -25,8 +25,8 @@ services:
       Database__Provider: SqlServer
       ConnectionStrings__Database: "Server=sqlserver;Database=AulaPedidos;User Id=sa;Password=${SQL_PASSWORD};Encrypt=True;TrustServerCertificate=True"
       Jwt__DemoMode: "true"
-      Jwt__SigningKey: ${JWT_KEY:?Ejecuta scripts/setup.ps1}
-      Notifications__SharedKey: ${NOTIFICATIONS_KEY:?Ejecuta scripts/setup.ps1}
+      Jwt__SigningKey: ${JWT_KEY:?Ejecuta CourseTools setup desde la raiz del curso}
+      Notifications__SharedKey: ${NOTIFICATIONS_KEY:?Ejecuta CourseTools setup desde la raiz del curso}
       Notifications__BaseUrl: http://notifications:8080/
       OTEL_EXPORTER_OTLP_ENDPOINT: http://dashboard:18889
     depends_on:

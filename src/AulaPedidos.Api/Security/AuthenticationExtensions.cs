@@ -24,7 +24,7 @@ public static class AuthenticationExtensions
             {
                 var key = configuration["Jwt:SigningKey"];
                 if (string.IsNullOrWhiteSpace(key) || Encoding.UTF8.GetByteCount(key) < 32)
-                    throw new InvalidOperationException("Ejecuta scripts/setup.ps1 para configurar la clave de laboratorio.");
+                    throw new InvalidOperationException("Ejecuta dotnet run --project tools/AulaPedidos.CourseTools -- setup para configurar la clave de laboratorio.");
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true, ValidIssuer = "AulaPedidos.Demo",

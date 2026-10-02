@@ -2,57 +2,53 @@
 
 ## 48 horas antes
 
-Solicitar Windows con permisos para instalar, Visual Studio 2026 actualizado con carga **ASP.NET y desarrollo web**, .NET 10 SDK compatible con `global.json`, Git, PowerShell 7.4 o posterior (`pwsh`, no Windows PowerShell 5.1) y GitHub Copilot habilitado por cuenta/organización. Para clases 5 y 9: Docker Desktop en modo contenedores Linux/WSL2 y recursos suficientes para SQL Server; reservar al menos 16 GB de RAM en el equipo es una recomendación práctica, no un requisito oficial universal. Validar licencias corporativas de cada producto con el área responsable.
+Solicitar Windows con permisos para instalar, Visual Studio 2026 actualizado con carga **ASP.NET y desarrollo web**, .NET 10 SDK compatible con `global.json`, Git y GitHub Copilot habilitado por cuenta/organización. Las herramientas del curso están escritas en C# y se ejecutan con `dotnet`. Para clases 5 y 9: Docker Desktop en modo contenedores Linux/WSL2 y recursos suficientes para SQL Server; reservar al menos 16 GB de RAM en el equipo es una recomendación práctica, no un requisito oficial universal. Validar licencias corporativas de cada producto con el área responsable.
 
 No depender de un trial ni de un modelo específico. Cada participante debe enviar sólo confirmación de acceso; nunca su contraseña o token. Descargar/restaurar antes del aula cuando la red corporativa tenga proxy. Preparar equipos en parejas y una estación demostrativa con Docker funcional.
 
 ## Inspección de la referencia
 
-Abrir PowerShell en la raíz del material:
+Abrir una terminal en la raíz del material y revisar `global.json` en el editor:
 
-```powershell
-$PSVersionTable.PSVersion
+```console
 dotnet --info
 git --version
 docker version
-Get-Content .\global.json
-.\scripts\setup.ps1
-.\scripts\verify.ps1
+dotnet run --project tools/AulaPedidos.CourseTools -- setup
+dotnet run --project tools/AulaPedidos.CourseTools -- verify
 ```
 
-Si Docker no está disponible, registrar ese bloqueo: las clases iniciales usan SQLite, pero la evidencia de contenedores se recupera en una estación habilitada. Si la política bloquea scripts, solicitar la configuración autorizada por TI; no enseñar a desactivar políticas de la empresa globalmente.
+Si Docker no está disponible, registrar ese bloqueo: las clases iniciales usan SQLite, pero la evidencia de contenedores se recupera en una estación habilitada. Si la política impide restaurar paquetes o ejecutar las herramientas, solicitar la configuración autorizada por TI.
 
 Abrir `AulaPedidos.slnx` con Visual Studio. Verificar SDK objetivo y proyecto Api como inicio. La solución referencia debe compilar antes de preparar el laboratorio. Ejecutar en terminal separada:
 
-```powershell
-.\scripts\run-notifications.ps1
+```console
+dotnet run --project tools/AulaPedidos.CourseTools -- run-notifications
 ```
 
 En otra terminal:
 
-```powershell
-.\scripts\run-local.ps1
+```console
+dotnet run --project tools/AulaPedidos.CourseTools -- run-api
 ```
 
 En una tercera:
 
-```powershell
-Invoke-RestMethod http://localhost:5080/health/live
-Invoke-RestMethod http://localhost:5080/health/ready
-.\scripts\smoke.ps1
+```console
+dotnet run --project tools/AulaPedidos.CourseTools -- smoke
 ```
 
-Revisar `http://localhost:5080/swagger` y el contrato `http://localhost:5080/openapi/v1.json` en Development. El smoke modifica sólo datos de demostración: usar una base local exclusiva. Anotar el resultado real y la fecha; una ejecución previa no prueba el estado de otra computadora.
+Abrir las peticiones `/health/live` y `/health/ready` de `requests/AulaPedidos.http` y comprobar sus respuestas. Revisar `http://localhost:5080/swagger` y el contrato `http://localhost:5080/openapi/v1.json` en Development. El smoke modifica sólo datos de demostración: usar una base local exclusiva. Anotar el resultado real y la fecha; una ejecución previa no prueba el estado de otra computadora.
 
 ## Preparar el laboratorio incremental
 
-```powershell
-.\scripts\New-LabWorkspace.ps1 -Destination ..\AulaPedidos-lab
-Set-Location ..\AulaPedidos-lab
+```console
+dotnet run --project tools/AulaPedidos.CourseTools -- new-lab --destination ../AulaPedidos-lab
+cd ../AulaPedidos-lab
 dotnet build AulaPedidos.slnx
 ```
 
-El directorio destino debe ser nuevo. Abrir su solución en una segunda instancia de Visual Studio y etiquetar las ventanas como **REFERENCIA** y **LABORATORIO**. No iniciar dos APIs en el mismo puerto. El script genera el esqueleto; no copia toda la implementación final. Leer [recorrido](recorrido-laboratorio.md) antes de distribuir.
+El directorio destino debe ser nuevo. Abrir su solución en una segunda instancia de Visual Studio y etiquetar las ventanas como **REFERENCIA** y **LABORATORIO**. No iniciar dos APIs en el mismo puerto. `new-lab` genera el esqueleto e incluye CourseTools; no copia toda la implementación final. Leer [recorrido](recorrido-laboratorio.md) antes de distribuir.
 
 ## Ensayo de Copilot, 15 minutos
 

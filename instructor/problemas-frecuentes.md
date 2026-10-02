@@ -4,7 +4,7 @@ Seguir **síntoma → hipótesis → comprobación → cambio mínimo → nueva 
 
 | Síntoma | Comprobar primero | Recuperación y criterio de cierre |
 |---|---|---|
-| Script no corre en Windows PowerShell | `$PSVersionTable.PSVersion`, usar `pwsh`7.4+ | Abrir terminal correcta y repetir script; no bajar política corporativa globalmente |
+| No arranca la herramienta del curso | Revisar `dotnet --info`, `global.json` y el directorio actual | Usar el SDK indicado y repetir el comando CourseTools desde la raíz de la solución |
 | SDK no coincide | `global.json`, `dotnet --list-sdks` | Instalar SDK compatible/aprobado; build exitoso |
 | Restore locked falla | Cambio de paquetes, lockfile, red/proxy | Distinguir edición intencional vs entorno; actualizar lock sólo con revisión |
 | Copilot no ve instrucciones | Raíz, extensión, opción VS, References | Adjuntar explícitamente/abrir nuevo Chat; comprobar respuesta y archivos |
@@ -34,4 +34,4 @@ Nombrar el bloqueo y la hipótesis actual. Conservar error sanitizado para ejerc
 
 ## Puesta a cero segura
 
-No hay un “borrar todo” recomendado. Detener procesos del laboratorio, guardar fuente/diff/evidencia, elegir un directorio/base nuevos y repetir configuración allí. El script New-LabWorkspace rechaza destinos existentes por esta razón. Eliminar volúmenes o bases sólo cuando se sabe que son descartables y se ha preservado el trabajo necesario.
+No hay un “borrar todo” recomendado. Detener procesos del laboratorio, guardar fuente/diff/evidencia, elegir un directorio/base nuevos y repetir configuración allí. El comando new-lab rechaza destinos existentes por esta razón. Eliminar volúmenes o bases sólo cuando se sabe que son descartables y se ha preservado el trabajo necesario.

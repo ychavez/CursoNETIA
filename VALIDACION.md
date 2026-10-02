@@ -1,21 +1,21 @@
 # Validación de la entrega
 
-Fecha: 29 de septiembre de 2026. Entorno: Windows, PowerShell 7.4.20, SDK .NET 10.0.401, runtime 10.0.12.
+Evidencia previa: 29 de septiembre de 2026. Entorno: Windows, SDK .NET 10.0.401, runtime 10.0.12. Se conserva la evidencia histórica y se registra más abajo la validación de las utilidades C# del 1 de octubre de 2026.
 
-## Ejecutado
+## Ejecutado en la entrega previa
 
 | Comprobación | Resultado |
 |---|---|
 | Restauración con lockfiles | Correcta |
 | Build de solución Debug y Release | Sin errores ni advertencias en la ejecución final |
-| setup.ps1 | Claves locales, User Secrets, restauración, build y migración SQLite correctos |
-| Entrega inicial: verify.ps1 -Coverage | 60 pruebas unitarias + 25 de integración aprobadas: **85 en total** |
+| Preparación local de la entrega inicial | Claves locales, User Secrets, restauración, build y migración SQLite correctos |
+| Verificación de la entrega inicial | 60 pruebas unitarias + 25 de integración aprobadas: **85 en total** |
 | Consistencia de modelo SQLite y SQL Server | Sin cambios pendientes de migración |
 | Migraciones SQLite sobre base nueva | Ejecutadas por setup y pruebas relacionales |
 | Script SQL Server idempotente | Generado en artifacts/sqlserver-migrations.sql; no aplicado a servidor |
 | API real + receptor local | Arranque en 5080/5099, health y Swagger HTTP 200 |
-| smoke.ps1 | 401 sin token, creación de producto/pedido, total servidor, 403 dueño ajeno, identidad ordinal y cancelación |
-| Worker real de outbox | Cuatro eventos persistidos y entregados; ProcessedAt confirmado mediante outbox-status.ps1 |
+| Flujo HTTP completo de la entrega inicial | 401 sin token, creación de producto/pedido, total servidor, 403 dueño ajeno, identidad ordinal y cancelación |
+| Worker real de outbox | Cuatro eventos persistidos y entregados; ProcessedAt confirmado consultando el estado de la outbox |
 | Receptor HTTP | 401 sin clave, fallo simulado503, nuevo202, duplicado200, payload diferente409; deduplicación tras reinicio |
 | Resiliencia HTTP real con transporte de prueba | Retry 503/503/202 conserva EventId; circuito abierto deja de enviar; 400 no se reintenta |
 | Generador de laboratorio | Generó otro directorio y su solución vacía compiló |
@@ -34,6 +34,26 @@ Se añadió `IRepository<T>` y su base EF Core `Repository<T>`, con puertos espe
 
 La comprobación de cambios pendientes de modelo pasó para SQLite y SQL Server. Este refactor no requiere una migración nueva.
 
+## Migración de las utilidades a C#: 1 de octubre de 2026
+
+Las ocho utilidades anteriores se sustituyeron por `tools/AulaPedidos.CourseTools`, una aplicación de consola C# sin paquetes externos. Se actualizaron CI, las instrucciones de Copilot, las guías, las peticiones HTTP y la presentación de 64 diapositivas.
+
+| Comprobación nueva | Resultado observado |
+|---|---|
+| `verify --coverage` | Restauración bloqueada, compilación Release y **113 pruebas aprobadas: 82 unitarias y 31 de integración**, sin pruebas omitidas |
+| Regresiones de CourseTools | 22 pruebas sobre firma y permisos JWT, identidad ordinal, vigencia, entradas inválidas y protección del destino del laboratorio |
+| Consistencia de EF | Sin cambios pendientes para SQLite y SQL Server |
+| `setup` en una copia aislada | Configuró User Secrets exclusivos, conservó las claves locales, compiló y creó la base SQLite con sus migraciones |
+| `setup --secrets-only` repetido | Los archivos de credenciales conservaron exactamente sus valores |
+| `token` | Admin y Student emitidos con identidad exacta; rol desconocido rechazado |
+| `run-api`, `run-notifications` y `smoke` | Readiness, 401 sin token, altas 201, total 251, aislamiento y cancelación ajena 403, identidad ordinal, versión incorrecta 409 y cancelación correcta |
+| Outbox y salida de procesos | Receptor configurado con dos fallos simulados; entrega posterior confirmada con `outbox-status`; salida de procesos hijos visible |
+| `new-lab` | Esqueleto y herramienta C# compilables, UserSecretsId distintos, sin copiar claves ni aplicación resuelta; destinos existentes o internos rechazados |
+| Preparación del esqueleto | `setup --skip-database` terminó correctamente en el laboratorio generado; la migración espera a que se implemente el módulo de datos |
+| Presentación | Archivo validado y renderizado con 64 diapositivas; comandos .NET en la diapositiva 9 y fuentes de las notas actualizadas |
+
+El ensayo HTTP usó una copia local con datos sintéticos y User Secrets independientes. Se detuvieron los procesos iniciados para la validación. No se ejecutó Docker ni un motor SQL Server real en esta actualización; esos límites continúan vigentes.
+
 ## Preparado, sin ejecución local
 
 **Docker no está disponible en la terminal de este equipo.** No se ejecutaron aquí build/arranque de contenedores, migraciones contra un motor SQL Server real, ni exportación al dashboard de Aspire.
@@ -44,23 +64,23 @@ La configuración del harness se contrastó con documentación oficial; no se ej
 
 ## Repetir comprobaciones
 
-```powershell
-./scripts/setup.ps1
-./scripts/verify.ps1 -Coverage
+```console
+dotnet run --project tools/AulaPedidos.CourseTools -- setup
+dotnet run --project tools/AulaPedidos.CourseTools -- verify --coverage
 # En otras terminales:
-./scripts/run-notifications.ps1
-./scripts/run-local.ps1
+dotnet run --project tools/AulaPedidos.CourseTools -- run-notifications
+dotnet run --project tools/AulaPedidos.CourseTools -- run-api
 # Desde una tercera:
-./scripts/smoke.ps1
-./scripts/outbox-status.ps1
+dotnet run --project tools/AulaPedidos.CourseTools -- smoke
+dotnet run --project tools/AulaPedidos.CourseTools -- outbox-status
 ```
 
 Para la parte pendiente, detener primero servicios locales y ejecutar Docker Desktop en modo contenedores Linux:
 
-```powershell
+```console
 docker compose --env-file .env config --quiet
 docker compose --env-file .env up --build -d
-./scripts/smoke.ps1
+dotnet run --project tools/AulaPedidos.CourseTools -- smoke
 docker compose exec api dotnet AulaPedidos.Api.dll --outbox-status
 docker compose down
 ```

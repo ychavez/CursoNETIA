@@ -4,6 +4,7 @@ Proyecto educativo empresarial en C#/.NET 10 con ASP.NET Core, EF Core y GitHub 
 
 ## Fronteras
 
+- Las utilidades del curso se escriben en C#. No crear scripts de PowerShell.
 - Domain contiene reglas e invariantes; no depende de EF, HTTP ni Infrastructure.
 - Application contiene casos de uso, DTOs y puertos. Depende de Domain.
 - Infrastructure implementa persistencia, adaptadores, caché y entrega de eventos.
@@ -37,4 +38,4 @@ Trabaja en el directorio de laboratorio designado. Solicita revisión humana de 
 
 ## Comandos de referencia
 
-`dotnet build AulaPedidos.slnx` y `dotnet test AulaPedidos.slnx`. Consulta README y `scripts/` antes de ejecutar configuración, Docker o migraciones; no inventes argumentos. Al generar una feature, añade evidencia a la bitácora del participante siguiendo `instructor/plantillas/bitacora-ia.md`.
+`dotnet restore AulaPedidos.slnx --locked-mode`, `dotnet build AulaPedidos.slnx` y `dotnet test AulaPedidos.slnx`. Las utilidades del aula se ejecutan con `dotnet run --project tools/AulaPedidos.CourseTools -- <comando>`; consulta README y ese proyecto antes de ejecutar configuración, Docker o migraciones, sin inventar argumentos. Usa las pruebas y la CI como evidencia, indicando qué comandos se ejecutaron realmente. Al generar una feature, añade evidencia a la bitácora del participante siguiendo `instructor/plantillas/bitacora-ia.md`.

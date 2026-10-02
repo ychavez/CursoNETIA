@@ -21,16 +21,16 @@ Persistir intención de notificar junto con el pedido, entregar mediante adaptad
 
 ## Ensayo de fallo controlado
 
-1. Iniciar API local y receptor mediante scripts. Crear un pedido y ver evento entregado.
+1. Iniciar API local y receptor mediante los comandos run-api y run-notifications de CourseTools. Crear un pedido y ver evento entregado.
 2. Detener **sólo** el receptor con Ctrl+C. Crear otro pedido. La respuesta de creación sigue siendo 201 si la transacción local funciona.
-3. Observar logs del worker y tabla OutboxMessages: Attempts, NextAttemptAt, LastErrorCode, ProcessedAt y DeadLetteredAt. En SQLite ejecutar `scripts/outbox-status.ps1` desde la referencia; muestra las últimas20 filas de metadatos sin payload ni secretos y no necesita instalar una consola de base. En Compose, `docker compose --env-file .env exec api dotnet AulaPedidos.Api.dll --outbox-status` consulta el proveedor del contenedor.
+3. Observar logs del worker y tabla OutboxMessages: Attempts, NextAttemptAt, LastErrorCode, ProcessedAt y DeadLetteredAt. En SQLite ejecutar `dotnet run --project tools/AulaPedidos.CourseTools -- outbox-status` desde la referencia; muestra las últimas20 filas de metadatos sin payload ni secretos y no necesita instalar una consola de base. En Compose, `docker compose --env-file .env exec api dotnet AulaPedidos.Api.dll --outbox-status` consulta el proveedor del contenedor.
 4. Reiniciar receptor antes de agotar máximo de intentos y observar entrega posterior; el backoff puede retrasarla.
 5. Para simular fallos sin cerrar proceso:
 
-```powershell
-.\scripts\run-notifications.ps1 -FailuresBeforeSuccess 2
+```console
+dotnet run --project tools/AulaPedidos.CourseTools -- run-notifications --failures-before-success 2
 # En otro ensayo, separado del anterior:
-.\scripts\run-notifications.ps1 -AlwaysFail
+dotnet run --project tools/AulaPedidos.CourseTools -- run-notifications --always-fail
 ```
 
 Detener la ejecución anterior antes de iniciar la siguiente. Para recuperar, reiniciar receptor sin switches. Un mensaje dead-letter no se reanuda automáticamente: requiere diagnóstico y una operación controlada de reenvío; no borrar su historial.
@@ -58,4 +58,4 @@ Detener la ejecución anterior antes de iniciar la siguiente. Para recuperar, re
 - **¿Más retries mejoran disponibilidad siempre?** Pueden multiplicar carga y latencia; ajustar presupuestos.
 - **¿Caché evita consultar datos para cobrar?** No debe sustituir fuente consistente al fijar precio histórico.
 
-No hay entrega: comprobar worker Enabled, receptor, clave y NextAttemptAt. 401/403 receptor: claves no coinciden; ejecutar scripts con mismo material local, no imprimirlas. No abre circuito: revisar volumen/ventana, no inventar estado a partir de un error. Dead-letter: estudiar causa y plan de reenvío, no borrar filas. Si un demo tarda, usar tests deterministas para evidencia y dejar la red como observación adicional.
+No hay entrega: comprobar worker Enabled, receptor, clave y NextAttemptAt. 401/403 receptor: claves no coinciden; ejecutar CourseTools con el mismo material local, no imprimirlas. No abre circuito: revisar volumen/ventana, no inventar estado a partir de un error. Dead-letter: estudiar causa y plan de reenvío, no borrar filas. Si un demo tarda, usar tests deterministas para evidencia y dejar la red como observación adicional.

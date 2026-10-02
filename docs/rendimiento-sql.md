@@ -4,7 +4,7 @@ Este ejercicio de 25 minutos produce evidencia de lecturas y del plan real antes
 
 ## Preparar conexión y captura (5 minutos)
 
-1. Ejecutar `scripts/setup.ps1` y, desde la raíz de referencia, `docker compose up -d sqlserver`. Esperar que `docker compose ps` muestre SQL Server saludable. Docker Desktop debe ejecutar contenedores Linux.
+1. Ejecutar `dotnet run --project tools/AulaPedidos.CourseTools -- setup` y, desde la raíz de referencia, `docker compose up -d sqlserver`. Esperar que `docker compose ps` muestre SQL Server saludable. Docker Desktop debe ejecutar contenedores Linux.
 2. Abrir SQL Server Management Studio en la computadora del instructor. Conectar a **`localhost,14333`**, autenticación SQL Server, usuario `sa`, usando la clave local generada en `.local/secrets.json` (`SqlPassword`). Introducirla sin proyectar ni copiarla a Copilot. La opción de confiar en el certificado del servidor se permite aquí sólo para este contenedor local. En un servidor corporativo se usan identidad/permisos y certificados aprobados.
 3. Abrir **Nueva consulta**. Mantener la misma pestaña/conexión durante todo el experimento: la tabla `#PedidosCurso` pertenece a esa sesión y desaparece al cerrarla.
 4. Ejecutar el bloque de preparación que sigue. Luego activar **Consulta > Incluir plan de ejecución real** (`Ctrl+M`) antes de ejecutar las consultas de medición. El plan real aparece después de ejecutar; el plan estimado no contiene las mismas mediciones. [Documentación de planes reales](https://learn.microsoft.com/en-us/sql/relational-databases/performance/display-an-actual-execution-plan?view=sql-server-ver17).
@@ -97,7 +97,7 @@ Qué decir: «El índice aprovecha filtro y orden de este caso. También ocupa e
 
 ## Contrastar con AulaPedidos (6 minutos)
 
-1. Iniciar el Compose completo de referencia, ejecutar `scripts/smoke.ps1` contra su API y abrir una pestaña SSMS en la base **AulaPedidos**. El smoke crea un pedido del sujeto `alumno`.
+1. Iniciar el Compose completo de referencia, ejecutar `dotnet run --project tools/AulaPedidos.CourseTools -- smoke` contra su API y abrir una pestaña SSMS en la base **AulaPedidos**. El smoke crea un pedido del sujeto `alumno`.
 2. Consultar únicamente los datos sintéticos existentes. El siguiente SQL reproduce el filtro y la página principal; la query EF completa también carga las líneas y realiza una consulta de conteo.
 
 ```sql

@@ -29,7 +29,7 @@ Entrada: esqueleto compilable y harness probado. Salida: Product, Order y OrderI
 5. Crear Order con dueño, 1..50 líneas únicas, estado Submitted/Cancelled y Version. Dejar el evento para clase 3 si aún no está implementado; anotar explícitamente ese pendiente.
 6. Usar un test unitario para demostrar que cancelar dos veces no modifica de nuevo el agregado.
 
-```powershell
+```console
 dotnet build src/AulaPedidos.Domain/AulaPedidos.Domain.csproj
 dotnet test tests/AulaPedidos.UnitTests/AulaPedidos.UnitTests.csproj
 ```

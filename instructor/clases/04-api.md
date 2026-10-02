@@ -21,7 +21,7 @@ Entrada: casos de uso, mediador y dobles de persistencia. Salida: API local con 
 
 ## Demostración con referencia
 
-1. Iniciar API de referencia con `scripts/run-local.ps1` y notificador cuando se requieran pedidos.
+1. Iniciar API de referencia con `dotnet run --project tools/AulaPedidos.CourseTools -- run-api` y notificador cuando se requieran pedidos.
 2. Generar token local y guardarlo sólo en variable de sesión.
 3. Crear producto, leer respuesta y header Location; consultar id recibido.
 4. Intentar precio 0 y comprobar 400; buscar GUID inexistente y comprobar 404.
@@ -29,15 +29,11 @@ Entrada: casos de uso, mediador y dobles de persistencia. Salida: API local con 
 6. Mostrar `Operations/ApiExceptionHandler.cs`: fallo inesperado sanitizado, validación/conflicto diferenciados.
 7. Inspeccionar `/openapi/v1.json` y Swagger; comparar DTO real y estados. La documentación puede necesitar metadata adicional: es un punto de revisión, no prueba de completitud.
 
-```powershell
-$adminToken = .\scripts\token.ps1 -Role Admin -Subject instructor
-$headers = @{ Authorization = "Bearer $adminToken" }
-$inputJson = @{ sku = 'CURSO-API'; name = 'Producto del aula'; price = 120.50 } | ConvertTo-Json
-$product = Invoke-RestMethod http://localhost:5080/api/v1/products -Method Post -Headers $headers -ContentType 'application/json' -Body $inputJson
-Invoke-RestMethod "http://localhost:5080/api/v1/products/$($product.id)" -Headers $headers
+```console
+dotnet run --project tools/AulaPedidos.CourseTools -- token --role Admin --subject instructor
 ```
 
-Cambiar SKU si ya existe; no limpiar la base para ocultar el conflicto. PowerShell lanza excepción ante estados 4xx: inspeccionar respuesta o usar archivo HTTP/Swagger para ver código y body.
+Abrir Swagger y pegar el token en **Authorize**, o trabajar con una copia local no versionada de `requests/AulaPedidos.http`. Ejecutar **Crear producto como Admin**; copiar el `id` y la `version` de la respuesta a los marcadores de la copia local. Consultar ese producto, cambiar su precio a cero y consultar un identificador inexistente para comparar 201, 200, 400 y 404. En el cliente HTTP se inspeccionan tanto el código de estado como el cuerpo. Cambiar SKU si ya existe; no limpiar la base para ocultar el conflicto ni guardar tokens en Git.
 
 **Prompt:**
 
@@ -60,4 +56,4 @@ Cambiar SKU si ya existe; no limpiar la base para ocultar el conflicto. PowerShe
 - **¿Un GUID inválido siempre produce 400?** Un constraint de ruta puede no emparejar y devolver 404; comprobar contrato real.
 - **¿Puedo devolver entidades EF?** Aumenta acoplamiento, sobreexposición y problemas de serialización; usar DTO explícito.
 
-404 inesperado: revisar ruta y constraint antes de cambiar handler. 401 en referencia: generar token con scripts y revisar entorno; no quitar `[Authorize]`. 500 por DI: registrar el adaptador/handler pendiente. Puerto ocupado: detener la otra instancia. Si el lab no queda integrado, recuperar controllers y tipos de errores desde referencia junto con sus dependencias, marcando seguridad como pendiente hasta clase 6; usar referencia para demostración externa.
+404 inesperado: revisar ruta y constraint antes de cambiar handler. 401 en referencia: generar token con CourseTools y revisar entorno; no quitar `[Authorize]`. 500 por DI: registrar el adaptador/handler pendiente. Puerto ocupado: detener la otra instancia. Si el lab no queda integrado, recuperar controllers y tipos de errores desde referencia junto con sus dependencias, marcando seguridad como pendiente hasta clase 6; usar referencia para demostración externa.

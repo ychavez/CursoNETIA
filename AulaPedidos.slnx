@@ -10,6 +10,7 @@
     <Project Path="tests/AulaPedidos.UnitTests/AulaPedidos.UnitTests.csproj" />
   </Folder>
   <Folder Name="/tools/">
+    <Project Path="tools/AulaPedidos.CourseTools/AulaPedidos.CourseTools.csproj" />
     <Project Path="tools/AulaPedidos.NotificationsMock/AulaPedidos.NotificationsMock.csproj" />
   </Folder>
 </Solution>

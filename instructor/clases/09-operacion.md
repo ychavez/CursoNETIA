@@ -23,17 +23,15 @@ Construir contenedores multietapa, ejecutar SQL Server/API/receptor/dashboard co
 
 Detener API/receptor locales antes de reutilizar puertos. Desde la raíz referencia ya preparada:
 
-```powershell
+```console
 docker compose --env-file .env config --quiet
 docker compose --env-file .env up --build -d
 docker compose --env-file .env ps
 docker compose --env-file .env logs --tail 50 api
-Invoke-RestMethod http://localhost:5080/health/live
-Invoke-RestMethod http://localhost:5080/health/ready
-.\scripts\smoke.ps1
+dotnet run --project tools/AulaPedidos.CourseTools -- smoke
 ```
 
-No ejecutar `docker compose config` sin `--quiet` en la proyección: puede expandir secretos. Abrir dashboard en `http://localhost:18888`; la configuración anónima está limitada a loopback para el aula. SQL Server publica host14333 hacia servicio1433; la API usa nombre `sqlserver`, no ese puerto de host.
+Ejecutar las peticiones de `/health/live` y `/health/ready` en `requests/AulaPedidos.http` e interpretar sus respuestas. No ejecutar `docker compose config` sin `--quiet` en la proyección: puede expandir secretos. Abrir dashboard en `http://localhost:18888`; la configuración anónima está limitada a loopback para el aula. SQL Server publica host14333 hacia servicio1433; la API usa nombre `sqlserver`, no ese puerto de host.
 
 **Persistencia:** crear recurso, guardar id, ejecutar `docker compose --env-file .env restart api` y consultarlo otra vez. Luego reiniciar SQL Server, esperar readiness y comprobar que volumen conserva datos. `down` sin `-v` preserva volúmenes; `down -v` los elimina y no se usa durante el ensayo con evidencia.
 

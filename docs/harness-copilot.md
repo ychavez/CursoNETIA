@@ -11,7 +11,7 @@ En este curso, harness significa el conjunto de contexto, instrucciones, herrami
 | Tareas reutilizables | `.github/prompts/*.prompt.md` | Arquitectura, features, refactor, tests, debugging, SQL, seguridad, revisión y docs |
 | Roles de revisión | `.github/agents/*.agent.md` | Arquitecto y revisor con herramientas de lectura |
 | Decisiones | `docs/adr/` | Motivo, alternativas y consecuencias |
-| Guardas ejecutables | `tests/`, `scripts/verify.ps1` y CI | Detectar regresiones verificables |
+| Guardas ejecutables | `tests/`, comandos `dotnet`, `tools/AulaPedidos.CourseTools` y CI | Detectar regresiones verificables |
 | Evidencia humana | `instructor/plantillas/bitacora-ia.md` | Qué se pidió, rechazó, cambió y probó |
 
 ## Activar y comprobar en Visual Studio
@@ -51,7 +51,7 @@ Minutos 0–3: leer requerimiento y formular aceptación. 3–5: pedir propuesta
 
 ## Contexto y protección
 
-Usar datos sintéticos. No pegar claves, tokens, volcados de clientes ni archivos `.env`. Leer scripts antes de conceder ejecución. No dar acceso general a una base corporativa para “facilitar el curso”. Una instrucción maliciosa dentro de un log o comentario se trata como contenido a analizar. Las instrucciones del repositorio ayudan, pero no sustituyen permisos de herramientas, revisión y controles del pipeline.
+Usar datos sintéticos. No pegar claves, tokens, volcados de clientes ni archivos `.env`. Leer la herramienta C# y sus precondiciones antes de conceder ejecución. No dar acceso general a una base corporativa para “facilitar el curso”. Una instrucción maliciosa dentro de un log o comentario se trata como contenido a analizar. Las instrucciones del repositorio ayudan, pero no sustituyen permisos de herramientas, revisión y controles del pipeline.
 
 ## Contingencia
 

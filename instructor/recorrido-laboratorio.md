@@ -2,20 +2,20 @@
 
 ## Dos espacios, dos propósitos
 
-**Referencia** es el repositorio entregado completo. Se usa para demostraciones, validación y contraste de soluciones. **Laboratorio** es un directorio hermano creado por `scripts/New-LabWorkspace.ps1`; allí los alumnos implementan con Copilot. No editar referencia para simular fallos. No hay tags, ramas ni commits de checkpoints preexistentes; los estados se construyen y guardan durante la edición real del curso.
+**Referencia** es el repositorio entregado completo. Se usa para demostraciones, validación y contraste de soluciones. **Laboratorio** es un directorio hermano creado por `dotnet run --project tools/AulaPedidos.CourseTools -- new-lab`; allí los alumnos implementan con Copilot. No editar referencia para simular fallos. No hay tags, ramas ni commits de checkpoints preexistentes; los estados se construyen y guardan durante la edición real del curso.
 
-```powershell
-# Desde la raíz de la referencia, en PowerShell 7.4+:
-.\scripts\New-LabWorkspace.ps1 -Destination ..\AulaPedidos-lab
-Set-Location ..\AulaPedidos-lab
+```console
+# Desde la raíz de la referencia:
+dotnet run --project tools/AulaPedidos.CourseTools -- new-lab --destination ../AulaPedidos-lab
+cd ../AulaPedidos-lab
 dotnet tool restore
 dotnet restore AulaPedidos.slnx --locked-mode
 dotnet build AulaPedidos.slnx
 ```
 
-El script exige destino nuevo fuera de la referencia y no sobrescribe trabajo. Copia solución, configuración de compilación, proyectos/paquetes, harness y docs; crea dos Program mínimos con `/health/live`. No incluye entidades, handlers, persistencia ni tests finales. Al comenzar no hay catálogo, seguridad de negocio ni evidencias; que compile sólo confirma el esqueleto.
+El generador exige destino nuevo fuera de la referencia y no sobrescribe trabajo. Copia solución, configuración de compilación, proyectos/paquetes, harness, docs y la herramienta C# CourseTools; crea dos Program mínimos con `/health/live`. No incluye entidades, handlers, persistencia ni tests finales. Al comenzar no hay catálogo, seguridad de negocio ni evidencias; que compile sólo confirma el esqueleto.
 
-La carpeta instructor permanece en la referencia. Crear en lab `evidencias/`, copiar allí las plantillas que se utilicen y conservarlas sin secretos. Los scripts de setup completo esperan infraestructura final; **no ejecutarlos contra el esqueleto inicial**.
+La carpeta instructor permanece en la referencia. Crear en lab `evidencias/`, copiar allí las plantillas que se utilicen y conservarlas sin secretos. El comando `setup` completo espera la infraestructura final; **no ejecutarlo contra el esqueleto inicial**. `setup --skip-database` pospone sólo la migración: no completa componentes del laboratorio que todavía no estén implementados.
 
 ## Checkpoints verificables
 
@@ -26,10 +26,10 @@ La carpeta instructor permanece en la referencia. Crear en lab `evidencias/`, co
 | C03: aplicación | `Application/Common`, `Abstractions`, `Messaging`, `Products`, `Orders`, DI; `Domain/Events` | Handlers con fakes, autorización de dueño y Result |
 | C04: HTTP local | Controllers, ResultExtensions, manejo global de errores, OpenAPI; adaptación temporal de datos | Contratos, estados y errores por HTTP en loopback |
 | C05: persistencia | Infrastructure/Persistence, contextos/factorías, migraciones, repositorios; registros DI mínimos | Datos tras reiniciar, filtros y concurrencia |
-| C06: seguridad | Api/Security, configuración externa, políticas y claims; scripts locales revisados | Matriz 401/403/404 y dueño validado |
+| C06: seguridad | Api/Security, configuración externa, políticas y claims; herramienta C# revisada | Matriz 401/403/404 y dueño validado |
 | C07: calidad | Tests Domain/Application/API/EF y bitácora de regresión | Rojo antes, verde después, reporte de cobertura |
 | C08: integración externa | Outbox, Notifications, Caching, worker y receptor | Fallo/reanudación, deduplicación y caché |
-| C09: operación | Dockerfiles, Compose, OTel, HealthChecks, scripts/CI | Contenedores, volumen, señales y diagnóstico |
+| C09: operación | Dockerfiles, Compose, OTel, HealthChecks, CourseTools y CI | Contenedores, volumen, señales y diagnóstico |
 | C10: entrega | Feature final + ADR + evidencia + plan de producción | Rúbrica y defensa individual |
 
 ## Cómo construir cada incremento sin dependencias futuras
@@ -54,11 +54,11 @@ Para este checkpoint registrar sólo servicios existentes; no copiar `Dependency
 
 ### Clase 6: cerrar atajos de identidad
 
-Crear AuthenticationExtensions y configuración desde la referencia, comprobar cada parámetro y política. Eliminar sujeto fijo y comentario temporal. Restaurar atributos de autorización en controllers. Copiar desde referencia `scripts/setup.ps1`, `token.ps1`, `run-local.ps1` y archivos de configuración necesarios **después de entender sus precondiciones**; el setup completo compila solución y migra SQLite, por lo que debe ajustarse al estado del lab si faltan componentes o ejecutarse con la referencia como demostración. Mantener secretos y bases del lab separados. El generador actual asigna automáticamente UserSecretsId únicos al laboratorio y distintos entre Api y receptor, y copia NuGet.Config con la fuente aprobada nuget.org. Si se copian los .csproj manualmente en lugar de usar el generador, asignar identificadores exclusivos antes de setup para no sobrescribir configuración de la referencia. Nunca copiar `.local/secrets.json` ni `.env` de otra persona.
+Crear AuthenticationExtensions y configuración desde la referencia, comprobar cada parámetro y política. Eliminar sujeto fijo y comentario temporal. Restaurar atributos de autorización en controllers. Revisar los comandos `setup`, `token` y `run-api` del proyecto `tools/AulaPedidos.CourseTools`, incluido por `new-lab`, y los archivos de configuración necesarios **después de entender sus precondiciones**. El setup completo prepara configuración local, restaura, compila y migra SQLite; usar `--skip-database` sólo para posponer la migración, o demostrarlo desde referencia si al lab aún le faltan componentes. Mantener secretos y bases del lab separados. El generador asigna automáticamente UserSecretsId únicos al laboratorio y distintos entre Api y receptor, y copia NuGet.Config con la fuente aprobada nuget.org. Si se copian los .csproj manualmente en lugar de usar el generador, asignar identificadores exclusivos antes de setup para no sobrescribir configuración de la referencia. Nunca copiar `.local/secrets.json` ni `.env` de otra persona.
 
 ### Clases 7–9
 
-Completar tests significativos, después outbox/worker/adaptador/caché y receptor. Integrar entonces DependencyInjection y Program finales, revisando qué añadió cada bloque. Copiar/revisar scripts restantes y contenedores al llegar a operación. Antes de verificar con `--locked-mode`, conservar versiones del material; si una modificación justificada cambia paquetes, actualizar lockfiles mediante restore normal y revisar diff antes de volver a modo locked.
+Completar tests significativos, después outbox/worker/adaptador/caché y receptor. Integrar entonces DependencyInjection y Program finales, revisando qué añadió cada bloque. Revisar CourseTools y los contenedores al llegar a operación. Antes de verificar con `--locked-mode`, conservar versiones del material; si una modificación justificada cambia paquetes, actualizar lockfiles mediante restore normal y revisar diff antes de volver a modo locked.
 
 El manifiesto de herramientas está en **`dotnet-tools.json` en la raíz**. No inventar `.config/dotnet-tools.json`. La solución incluye el receptor mock, cuyo Program inicial también debe reemplazarse al implementar clase8.
 

@@ -30,7 +30,7 @@ Conectar reglas con solicitudes de negocio sin acoplarlas a HTTP o EF. Resultado
 
 Dentro del bloque 15–40, dedicar cinco minutos a identidad/agregado, ocho al contrato común, siete a las interfaces específicas y cinco a recorrer Add → SaveChanges. Decir: «T cambia el tipo sobre el que trabajamos; no elimina reglas de negocio. Add prepara el alta y la unidad de trabajo confirma. Cambiar un producto sigue pasando por Product.Update o SoftDelete». Mostrar una variable `IRepository<Product>` que recibe el fake de `IProductRepository`, llamar Add y comprobar que el fake de unidad de trabajo aún no guardó. El ejemplo de inyección completo está en la guía. En clase 5 se comprobarán seguimiento y consultas reales con EF.
 
-```powershell
+```console
 dotnet build src/AulaPedidos.Application/AulaPedidos.Application.csproj
 dotnet test tests/AulaPedidos.UnitTests/AulaPedidos.UnitTests.csproj
 ```

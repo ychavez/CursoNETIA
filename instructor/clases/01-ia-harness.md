@@ -15,7 +15,7 @@ Completar `instructor/00-preparacion.md`. Tener la referencia ejecutable y un di
 | 80–105 | «Un prompt útil define objetivo, contexto, restricciones, aceptación y evidencia. “Haz una arquitectura profesional” no dice cómo reconocer éxito.» | En Chat comparar el prompt débil y el acotado de abajo. Pedir sólo análisis; no aceptar cambios. Subrayar supuestos inventados. |
 | 105–130 | «El harness convierte decisiones repetidas en contexto versionado y controles. Las instrucciones orientan; los tests verifican una parte del resultado.» | Abrir instrucciones generales/específicas, prompt y ADR. Activar instrucciones y comprobar References con un archivo Domain. |
 | 130–155 | «Un agente dispone de herramientas. Darle un rol no limita por sí solo lo que puede ejecutar.» | Abrir selector de agentes si VS ≥18.4; comprobar herramientas de lectura. Enseñar revisión de comando y diff. Si no existe selector, adjuntar mismo archivo como contexto. |
-| 155–180 | «Ahora construiremos en nuestra carpeta. La referencia queda disponible para comparar, no para ocultar un fallo de aprendizaje.» | Crear laboratorio con el script, abrir segunda instancia VS, compilar esqueleto y ejecutar `/health/live`. Reconocer que todavía no hay catálogo ni tests de negocio. |
+| 155–180 | «Ahora construiremos en nuestra carpeta. La referencia queda disponible para comparar, no para ocultar un fallo de aprendizaje.» | Crear laboratorio con CourseTools, abrir segunda instancia VS, compilar esqueleto y ejecutar `/health/live`. Reconocer que todavía no hay catálogo ni tests de negocio. |
 | 180–220 | «Cada pareja va a mejorar una instrucción, escribir un prompt y demostrar que puede rechazar una respuesta incorrecta.» | Laboratorio: checklist inferior. Conductor cambia a los 20 minutos. Circular y comprobar contexto real, no sólo respuesta. |
 | 220–235 | «Revisar una propuesta también es producir trabajo. Cuéntenme qué no aceptaron y qué evidencia les faltó.» | Dos parejas muestran diff de harness y bitácora. Debate sobre una instrucción demasiado amplia. |
 | 235–240 | «La siguiente clase pondrá estas reglas en las referencias de proyectos y en el dominio.» | Ticket de salida: una tarea delegable, una decisión humana y un comando de comprobación. |
@@ -24,7 +24,7 @@ Pausas sugeridas después de 80 y 155, fuera de los 240 minutos efectivos.
 
 ## Demostración paso a paso
 
-1. En referencia, ejecutar `scripts/verify.ps1` y explicar que un resultado sólo vale para ese estado del código.
+1. En referencia, ejecutar `dotnet restore AulaPedidos.slnx --locked-mode`, `dotnet build AulaPedidos.slnx --no-restore` y `dotnet test AulaPedidos.slnx --no-build`. Explicar que un resultado sólo vale para ese estado del código.
 2. Abrir Copilot Chat. Prompt débil: «Crea una arquitectura empresarial de pedidos con todo lo necesario». Leer sin aplicar; identificar paquetes, servicios y supuestos no pedidos.
 3. Prompt mejorado:
 
@@ -34,9 +34,9 @@ Pausas sugeridas después de 80 y 155, fuera de los 240 minutos efectivos.
 5. En el laboratorio, pedir a Copilot que añada una nota de propósito al README local; revisar y conservar sólo ese cambio. Ejecutar build para practicar el circuito aunque sea una modificación documental; explicar que aquí build valida el entorno, no el contenido de la nota.
 6. Completar la primera bitácora con respuesta útil y respuesta descartada.
 
-```powershell
-.\scripts\New-LabWorkspace.ps1 -Destination ..\AulaPedidos-lab
-Set-Location ..\AulaPedidos-lab
+```console
+dotnet run --project tools/AulaPedidos.CourseTools -- new-lab --destination ../AulaPedidos-lab
+cd ../AulaPedidos-lab
 dotnet build AulaPedidos.slnx
 dotnet run --project src/AulaPedidos.Api --urls http://localhost:5080
 ```

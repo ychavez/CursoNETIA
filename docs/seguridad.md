@@ -2,14 +2,14 @@
 
 ## Modelo de identidad
 
-La API valida JWT. En el entorno local el script `scripts/token.ps1` genera tokens de práctica con una clave aleatoria local preparada por setup; no existe una pantalla de login ni un endpoint que entregue roles a quien los solicite. Ejecutar un script en la computadora del desarrollador no representa autenticación empresarial.
+La API valida JWT. En el entorno local la herramienta C# del curso genera tokens de práctica con una clave aleatoria local preparada por `setup`; no existe una pantalla de login ni un endpoint que entregue roles a quien los solicite. Generar un token en la computadora del desarrollador no representa autenticación empresarial.
 
-```powershell
-$adminToken = .\scripts\token.ps1 -Role Admin -Subject instructor
-$studentToken = .\scripts\token.ps1 -Role Student -Subject alumno
+```console
+dotnet run --project tools/AulaPedidos.CourseTools -- token --role Admin --subject instructor
+dotnet run --project tools/AulaPedidos.CourseTools -- token --role Student --subject alumno
 ```
 
-No pegar esos valores en chats ni guardarlos en Git. `scripts/run-local.ps1` activa el modo local. Fuera del aula se configura `Authority` y `Audience` de un proveedor OIDC real, con usuarios, altas/bajas, MFA y políticas de organización. Leer `Program.cs` y la configuración para los nombres exactos antes de desplegar; no resolver un fallo habilitando el modo demo en Production.
+Usa los valores sólo en **Authorize** de Swagger o en una copia local no versionada de `requests/AulaPedidos.http`; no pegarlos en chats ni guardarlos en Git. `dotnet run --project tools/AulaPedidos.CourseTools -- run-api` activa el modo local. Fuera del aula se configura `Authority` y `Audience` de un proveedor OIDC real, con usuarios, altas/bajas, MFA y políticas de organización. Leer `Program.cs` y la configuración para los nombres exactos antes de desplegar; no resolver un fallo habilitando el modo demo en Production.
 
 ## Tres preguntas por petición
 

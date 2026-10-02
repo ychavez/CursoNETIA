@@ -30,15 +30,18 @@ Construir evidencia de reglas, persistencia y contrato HTTP; usar dobles donde a
 7. Abrir `tests/AulaPedidos.IntegrationTests/ApiFactory.cs` y explicar host real + base relacional aislada; no mockear el controller.
 8. Ejecutar verificación con cobertura en referencia ya configurada:
 
-```powershell
-.\scripts\verify.ps1 -Coverage
-Get-ChildItem .\artifacts\tests -Recurse -Filter coverage.cobertura.xml
+```console
+dotnet restore AulaPedidos.slnx --locked-mode
+dotnet build AulaPedidos.slnx -c Release --no-restore
+dotnet test AulaPedidos.slnx -c Release --no-build --collect "XPlat Code Coverage" --results-directory artifacts/tests
 ```
 
-En laboratorio sin scripts finales, usar:
+Abrir `artifacts/tests` en el explorador de archivos y localizar los informes `coverage.cobertura.xml`. CourseTools también agrupa las verificaciones con `dotnet run --project tools/AulaPedidos.CourseTools -- verify --coverage`.
 
-```powershell
-dotnet test AulaPedidos.slnx --collect 'XPlat Code Coverage' --results-directory artifacts/tests
+Para una comprobación acotada al laboratorio, usar:
+
+```console
+dotnet test AulaPedidos.slnx --collect "XPlat Code Coverage" --results-directory artifacts/tests
 ```
 
 El informe cubre instrumentación de los proyectos/configuración ejecutados. Registrar exclusiones y proveedores; no presentar porcentaje como cobertura de todos los requisitos. La raíz incluye `dotnet-tools.json`; `dotnet tool restore` usa ese manifiesto.

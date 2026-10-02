@@ -25,12 +25,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - run: dotnet restore tools/AulaPedidos.CourseTools --locked-mode
       - name: Configure disposable lab secrets
-        shell: bash
-        run: |
-          echo "SQL_PASSWORD=Aula9!$(openssl rand -hex 20)" >> .env
-          echo "JWT_KEY=$(openssl rand -hex 32)" >> .env
-          echo "NOTIFICATIONS_KEY=$(openssl rand -hex 32)" >> .env
+        run: dotnet run --project tools/AulaPedidos.CourseTools --no-restore -- setup --secrets-only
       - run: docker compose config --quiet
       - run: docker compose up --build -d
       - name: Verify SQL Server migration and ready API
@@ -47,12 +47,6 @@ jobs:
           test "$(docker compose exec -T api id -u)" != "0"
           test "$(docker compose exec -T notifications id -u)" != "0"
       - name: Verify HTTP behavior with SQL Server
-        shell: pwsh
-        run: |
-          New-Item -ItemType Directory -Force .local | Out-Null
-          $values = @{}
-          Get-Content .env | ForEach-Object { $parts = $_ -split '=',2; $values[$parts[0]] = $parts[1] }
-          @{ JwtKey = $values.JWT_KEY } | ConvertTo-Json | Set-Content .local/secrets.json
-          ./scripts/smoke.ps1
+        run: dotnet run --project tools/AulaPedidos.CourseTools --no-build -- smoke
       - run: docker compose down
         if: always()

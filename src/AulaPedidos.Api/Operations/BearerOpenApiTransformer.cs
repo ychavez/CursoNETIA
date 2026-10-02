@@ -9,7 +9,7 @@ public sealed class BearerOpenApiTransformer : IOpenApiDocumentTransformer
     {
         document.Info.Title = "AulaPedidos";
         document.Info.Version = "v1";
-        document.Info.Description = "Laboratorio de arquitectura .NET con Copilot. Genera el token con scripts/token.ps1 y pégalo en Authorize.";
+        document.Info.Description = "Laboratorio de arquitectura .NET con Copilot. Genera un token con dotnet run --project tools/AulaPedidos.CourseTools -- token y pégalo en Authorize.";
         document.Components ??= new OpenApiComponents();
         document.Components.SecuritySchemes = new Dictionary<string, IOpenApiSecurityScheme>
         {

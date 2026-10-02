@@ -9,7 +9,7 @@ Las soluciones se describen al final de cada guion y se contrastan con los archi
 | 3 | `Application/Messaging/`, `Common/Result.cs`, `Products/`, `Orders/`, `Abstractions/IPersistence.cs` | Caso de uso y fallo de negocio verificables |
 | 4 | `src/AulaPedidos.Api/Program.cs` y endpoints/servicios asociados | HTTP válido, inválido y contrato OpenAPI |
 | 5 | `Infrastructure/Persistence/` y `Migrations/` | Esquema reproducible + consulta + conflicto |
-| 6 | Configuración/servicios de seguridad Api y `scripts/token.ps1` | 401/403 y acceso a recurso ajeno rechazado |
+| 6 | Configuración/servicios de seguridad Api y `dotnet run --project tools/AulaPedidos.CourseTools -- token` | 401/403 y acceso a recurso ajeno rechazado |
 | 7 | `tests/AulaPedidos.UnitTests`, `tests/AulaPedidos.IntegrationTests` | Regresión roja antes y verde después |
 | 8 | `Infrastructure/Outbox`, `Notifications`, `Caching` | Fallo controlado y recuperación sin perder intención |
 | 9 | `Dockerfile`, `compose.yaml`, configuración OTel Api | Persistencia + traza + readiness |

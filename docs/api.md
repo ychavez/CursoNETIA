@@ -1,6 +1,6 @@
 # Contrato HTTP de referencia
 
-Base local: `http://localhost:5080`. Contrato v1 en rutas `/api/v1`. La solución usa controllers ASP.NET Core. OpenAPI se publica en Development en `/openapi/v1.json`, con Swagger UI en `/swagger`. Generar token con scripts locales siguiendo [seguridad](seguridad.md).
+Base local: `http://localhost:5080`. Contrato v1 en rutas `/api/v1`. La solución usa controllers ASP.NET Core. OpenAPI se publica en Development en `/openapi/v1.json`, con Swagger UI en `/swagger`. Generar el token con CourseTools siguiendo [seguridad](seguridad.md).
 
 | Método y ruta | Entrada | Acceso | Éxito |
 |---|---|---|---|
@@ -36,7 +36,7 @@ Version es un GUID de concurrencia optimista, no un número incremental. Un clie
 {"items":[{"productId":"GUID_REAL_DEVUELTO_POR_PRODUCTO","quantity":2}]}
 ```
 
-El segundo bloque es una plantilla descriptiva: sustituir por un GUID real antes de enviar. No enviar marcadores literales. Para modificación/cancelación usar `version` real de la última lectura. Los scripts smoke crean identificadores válidos y ejercitan estos contratos sin requerir inventar valores.
+El segundo bloque es una plantilla descriptiva: sustituir por un GUID real antes de enviar. No enviar marcadores literales. Para modificación/cancelación usar `version` real de la última lectura. El comando `dotnet run --project tools/AulaPedidos.CourseTools -- smoke` crea identificadores válidos y ejercita estos contratos sin requerir inventar valores.
 
 ## Versionado y evolución
 

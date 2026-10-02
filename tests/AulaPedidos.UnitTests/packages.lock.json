@@ -142,6 +142,9 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[10.0.0, )"
         }
       },
+      "aulapedidos.coursetools": {
+        "type": "Project"
+      },
       "aulapedidos.domain": {
         "type": "Project"
       }
